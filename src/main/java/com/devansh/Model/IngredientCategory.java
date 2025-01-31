@@ -2,9 +2,7 @@ package com.devansh.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +11,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@ToString
 public class IngredientCategory {
 
     @Id
@@ -26,6 +26,7 @@ public class IngredientCategory {
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<IngredientsItem> ingredients = new ArrayList<>();
 
 }

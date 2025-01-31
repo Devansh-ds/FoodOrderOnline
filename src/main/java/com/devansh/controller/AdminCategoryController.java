@@ -6,7 +6,6 @@ import com.devansh.response.MessageResponse;
 import com.devansh.service.CategoryService;
 import com.devansh.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +20,7 @@ public class AdminCategoryController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody String name,
+    public ResponseEntity<Category> createCategory(@RequestParam String name,
                                                    @RequestHeader("Authorization") String token) throws Exception {
         User user = userService.findByJwtToken(token);
         return ResponseEntity.ok(categoryService.createCategory(name, user.getId()));

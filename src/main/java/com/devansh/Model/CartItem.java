@@ -28,9 +28,10 @@ public class CartItem {
 
     private Integer quantity;
 
+    @ElementCollection
     private List<String> ingredients;
 
-    private BigDecimal toalPrice;
+    private BigDecimal totalPrice;
 
 
 }

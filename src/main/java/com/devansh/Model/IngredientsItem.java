@@ -2,14 +2,14 @@ package com.devansh.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
+@ToString
 public class IngredientsItem {
 
     @Id

@@ -111,11 +111,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant getRestaurantByUserId(Integer userId) throws Exception {
-        Restaurant restaurant = restaurantRepository
+        return restaurantRepository
                 .findByOwnerId(userId)
                 .orElseThrow(() ->
                         new EntityNotFoundException("No restaurant found with user id: " + userId));
-        return restaurant;
     }
 
     @Override

@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 .requestMatchers("/test/user/**").hasAnyRole(Role.CUSTOMER.name(), Role.ADMIN.name())
                                 .requestMatchers("/test/owner/**").hasAnyRole(Role.RESTAURANT_OWNER.name(), Role.ADMIN.name())
 
-                                .requestMatchers("/admin/restaurants").hasAnyRole(Role.RESTAURANT_OWNER.name(), Role.ADMIN.name())
+                                .requestMatchers("/admin").hasAnyRole(Role.RESTAURANT_OWNER.name(), Role.ADMIN.name())
                                 .anyRequest()
                                 .authenticated()
 

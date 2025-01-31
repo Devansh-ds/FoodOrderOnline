@@ -25,6 +25,7 @@ public class OrderItem {
 
     private BigDecimal totalPrice;
 
+    @ElementCollection
     private List<String> ingredients;
 
 }
