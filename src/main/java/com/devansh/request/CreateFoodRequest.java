@@ -17,10 +17,10 @@ public class CreateFoodRequest {
     private String name;
     private String description;
     private BigDecimal price;
-    private Category category;
+    private Integer categoryId;
     private List<String> images;
     private boolean isVegetarian;
     private boolean isSeasonal;
-    private List<IngredientsItem> ingredients;
+    private List<Integer> ingredientsId;
 
 }

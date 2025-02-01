@@ -22,15 +22,15 @@ public class FoodController {
 
     @GetMapping
     public ResponseEntity<List<Food>> searchFood(@RequestParam String keyword,
-                                                 @RequestParam("Authorization") String token) {
+                                                 @RequestHeader("Authorization") String token) {
         User user = userService.findByJwtToken(token);
         return ResponseEntity.ok(foodService.searchFood(keyword));
     }
 
     @GetMapping("/restaurant/{restaurantId}")
     public ResponseEntity<List<Food>> getRestaurantFood(@PathVariable Integer restaurantId,
-                                                        @RequestParam boolean vegetarian,
-                                                        @RequestParam boolean seasonal,
+                                                        @RequestParam Boolean vegetarian,
+                                                        @RequestParam Boolean seasonal,
                                                         @RequestParam String categoryName) throws Exception {
         return ResponseEntity.ok(foodService.getRestaurantFoods(
                 restaurantId,

@@ -1,14 +1,19 @@
 package com.devansh.service;
 
+import com.devansh.Model.Category;
 import com.devansh.Model.Food;
+import com.devansh.Model.IngredientsItem;
 import com.devansh.Model.Restaurant;
+import com.devansh.repo.CategoryRepository;
 import com.devansh.repo.FoodRepository;
+import com.devansh.repo.IngredientItemRepository;
 import com.devansh.repo.RestaurantRepository;
 import com.devansh.request.CreateFoodRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,14 +25,26 @@ public class FoodServiceImpl implements FoodService {
     private final FoodRepository foodRepository;
     private final RestaurantRepository restaurantRepository;
     private final RestaurantService restaurantService;
+    private final IngredientItemRepository ingredientItemRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Food createFood(CreateFoodRequest request, Integer restaurantId) throws Exception {
         Restaurant restaurant = restaurantService.findRestaurantById(restaurantId);
 
+        List<IngredientsItem> ingredientsItemList = new ArrayList<>();
+        for (Integer itemId : request.getIngredientsId()) {
+            var item = ingredientItemRepository.findById(itemId).orElseThrow(EntityNotFoundException::new);
+            ingredientsItemList.add(item);
+        }
+
+        Category category = categoryRepository
+                .findById(request.getCategoryId())
+                .orElseThrow(EntityNotFoundException::new);
+
         Food food = Food
                 .builder()
-                .foodCategory(request.getCategory())
+                .foodCategory(category)
                 .restaurant(restaurant)
                 .description(request.getDescription())
                 .images(request.getImages())
@@ -37,7 +54,7 @@ public class FoodServiceImpl implements FoodService {
                 .isSeasonal(request.isSeasonal())
                 .isVegetarian(request.isVegetarian())
                 .available(false)
-                .ingredients(request.getIngredients())
+                .ingredients(ingredientsItemList)
                 .build();
 
         Food savedFood = foodRepository.save(food);
@@ -63,16 +80,16 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public List<Food> getRestaurantFoods(Integer restaurantId,
-                                         boolean isVegetarian,
-                                         boolean isSeasonal,
+                                         Boolean isVegetarian,
+                                         Boolean isSeasonal,
                                          String categoryName) throws Exception {
         Restaurant restaurant = restaurantService.findRestaurantById(restaurantId);
         List<Food> allFoods = restaurant.getFoods();
 
-        if (isVegetarian) {
+        if (isVegetarian != null) {
             allFoods = filterByVegeterian(allFoods);
         }
-        if (isSeasonal) {
+        if (isSeasonal != null) {
             allFoods = filterBySeasonal(allFoods);
         }
         if (categoryName != null) {
